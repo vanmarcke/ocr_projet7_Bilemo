@@ -1,0 +1,51 @@
+nelmio_api_doc:
+    documentation:
+        info:
+            title: BileMo By VMKDEV.com
+            description: Mobile phones API for business to business
+            version: 1.0.0
+
+        components:
+            securitySchemes:
+                Bearer:
+                    type: http
+                    scheme: bearer
+                    bearerFormat: JWT
+
+        security:
+            - Bearer: []
+
+        paths:
+            /api/login_check:
+                post:
+                    tags:
+                        - Login
+                    description: Login with your client account, you'll get your JWT Token
+                    requestBody:
+                        description: Email and Password with json
+                        required: true
+                        content:
+                            application/json:
+                                schema:
+                                    type: object
+                                    properties:
+                                        username:
+                                            type: string
+                                        password:
+                                            type: string
+                    responses:
+                        '200':
+                            description: Login successful
+                            content:
+                                application/json:
+                                    schema:
+                                        type: object
+                                        properties:
+                                            token:
+                                                type: string
+
+    areas: # to filter documented areas
+        path_patterns:
+            - ^/api(?!/doc$) # Accepts routes under /api except /api/doc
+        # host_patterns:
+        #     - ^api\.
