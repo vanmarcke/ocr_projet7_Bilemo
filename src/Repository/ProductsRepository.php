@@ -75,9 +75,7 @@ class ProductsRepository extends ServiceEntityRepository
     */
 
     /**
-     * Retourne la liste des produits
-     *
-     * @return array
+     * Retourne la liste des produits.
      */
     public function productsFindAll(): array
     {
@@ -86,6 +84,7 @@ class ProductsRepository extends ServiceEntityRepository
             ->orderBy('p.id', 'ASC');
 
         $query = $qb->getQuery();
+
         return $query->execute();
     }
 }
