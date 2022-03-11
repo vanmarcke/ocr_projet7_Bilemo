@@ -10,7 +10,7 @@ interface UsersManagerInterface
     /**
      * Method getUsersList Contains users information
      *
-     * @return array<users>
+     * @return Query
      */
     public function getUsersList(Clients $client): Query;
 }
