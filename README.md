@@ -25,7 +25,7 @@ Create a web service exposing an API
 
 **SymfonyInsight:**
 
-- Project in progress
+[![SymfonyInsight](https://insight.symfony.com/projects/b3a17fcb-b2ec-4c03-aa3a-819a029f81c1/big.svg)](https://insight.symfony.com/projects/b3a17fcb-b2ec-4c03-aa3a-819a029f81c1)
 
 ## Context
 
