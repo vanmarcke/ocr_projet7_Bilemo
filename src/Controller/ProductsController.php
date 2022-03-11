@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Api\PaginatorApi;
 use App\Manager\ProductsManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -12,7 +13,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class ProductsController extends AbstractController
 {
-    public function __construct(private SerializerInterface $serializer, private ProductsManagerInterface $productManager)
+    public function __construct(private SerializerInterface $serializer, private ProductsManagerInterface $productManager, private PaginatorApi $paginatorApi)
     {
     }
 
@@ -20,6 +21,11 @@ class ProductsController extends AbstractController
     public function showProducts(): JsonResponse
     {
         $productsList = $this->productManager->getProductsList();
+
+        $productsList = $this->paginatorApi->paginate(
+            $request,
+            $productsList
+        );
 
         $this->serializer->serialize($productsList, 'json', ['groups' => 'show_products']);
 
