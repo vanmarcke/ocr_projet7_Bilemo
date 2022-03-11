@@ -75,17 +75,16 @@ class ProductsRepository extends ServiceEntityRepository
     */
 
     /**
-     * Retourne la liste des produits
-     *
-     * @return array
+     * Retourne la liste des produits.
      */
-    public function ProductsFindAll(): array
+    public function productsFindAll(): array
     {
         $qb = $this->createQueryBuilder('p')
             ->select()
             ->orderBy('p.id', 'ASC');
 
         $query = $qb->getQuery();
+
         return $query->execute();
     }
 }
