@@ -3,6 +3,7 @@
 namespace App\Manager;
 
 use App\Entity\Clients;
+use App\Entity\Users;
 use App\Repository\UsersRepository;
 use Doctrine\ORM\Query;
 
@@ -18,5 +19,13 @@ class UserManager implements UsersManagerInterface
     public function getUserList(Clients $client): Query
     {
         return $this->usersRepo->findByClient($client);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUserId($client, $id)
+    {
+        return $this->usersRepo->findOneByClient($client, $id);
     }
 }
