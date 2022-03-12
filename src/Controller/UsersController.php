@@ -10,6 +10,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
+use OpenApi\Annotations as OA;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use App\Entity\Users;
 
 class UsersController extends AbstractController
 {
@@ -17,6 +20,23 @@ class UsersController extends AbstractController
     {
     }
 
+    /**
+     * @OA\Response(
+     *     response=200,
+     *     description="Returns Users collection (paginated)",
+     *     @OA\JsonContent(
+     *     )
+     * )
+     * 
+     * @OA\Parameter(
+     *     name="page",
+     *     in="query",
+     *     description="Page you need (leave empty if you want the first one)",
+     *     @OA\Schema(type="int")
+     * )
+     * 
+     * @OA\Tag(name="Users")
+     */
     #[Route('/api/users', methods: ['GET'], name: 'users_show')]
     public function showUsers(Request $request): JsonResponse
     {
@@ -34,6 +54,18 @@ class UsersController extends AbstractController
         return $this->json($usersList, Response::HTTP_OK);
     }
 
+    /**
+     * @OA\Response(
+     *     response=200,
+     *     description="Returns Users entity",
+     *     @OA\JsonContent(
+     *          type="array",
+     *          @OA\Items(ref=@Model(type=Users::class, groups={"user"}))
+     *     )
+     * )
+     * 
+     * @OA\Tag(name="Users")
+     */
     #[Route('/api/users/{id}', methods: ['GET'], name: 'user_show')]
     public function showUser($id): JsonResponse
     {
