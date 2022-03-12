@@ -33,4 +33,20 @@ class UsersController extends AbstractController
 
         return $this->json($usersList, Response::HTTP_OK);
     }
+
+    #[Route('/api/users/{id}', methods: ['GET'], name: 'user_show')]
+    public function showUser($id): JsonResponse
+    {
+        $client = $this->getUser();
+
+        $user = $this->usersManager->getUserId($client, $id);
+
+        if (null != $user) {
+            $this->serializer->serialize($user, 'json', ['groups' => 'user']);
+
+            return $this->json($user, Response::HTTP_OK);
+        }
+
+        return $this->json($user, Response::HTTP_NOT_FOUND);
+    }
 }
