@@ -4,7 +4,6 @@ namespace App\Manager;
 
 use App\Entity\Clients;
 use App\Repository\UsersRepository;
-use Doctrine\ORM\Query;
 
 class UsersManager implements UsersManagerInterface
 {
@@ -15,7 +14,7 @@ class UsersManager implements UsersManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function getUsersList(Clients $client): Query
+    public function getUsersList(Clients $client)
     {
         return $this->usersRepo->findByClient($client);
     }
