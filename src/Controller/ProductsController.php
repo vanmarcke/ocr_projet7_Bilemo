@@ -69,7 +69,7 @@ class ProductsController extends AbstractController
     {
         $product = $this->productManager->getProductId($id);
 
-        if (null != $product) {
+        if (null !== $product) {
             $this->serializer->serialize($product, 'json', ['groups' => 'product']);
 
             return $this->json($product, Response::HTTP_OK);
