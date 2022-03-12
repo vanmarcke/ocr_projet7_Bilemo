@@ -8,9 +8,7 @@ use Doctrine\ORM\Query;
 interface UsersManagerInterface
 {
     /**
-     * Method getUsersList Contains users information
-     *
-     * @return Query
+     * Method getUsersList Contains users information.
      */
     public function getUsersList(Clients $client): Query;
 }
