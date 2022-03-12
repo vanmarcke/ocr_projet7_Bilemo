@@ -24,6 +24,6 @@ class ProductsManager implements ProductsManagerInterface
      */
     public function getProductId($id): Products
     {
-        return $this->productsRepo->findOneBy(["id" => $id]);
+        return $this->productsRepo->findOneBy(['id' => $id]);
     }
 }

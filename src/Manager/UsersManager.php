@@ -19,6 +19,4 @@ class UsersManager implements UsersManagerInterface
     {
         return $this->usersRepo->findByClient($client);
     }
-
-
 }
