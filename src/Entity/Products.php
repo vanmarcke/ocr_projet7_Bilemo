@@ -95,9 +95,8 @@ class Products
 
     public function getPath(): string
     {
-        return "/api/products/" . $this->id;
+        return '/api/products/' . $this->id;
     }
-
 
     public function getDescription(): ?string
     {

@@ -25,8 +25,8 @@ class PaginatorApi
     {
         $items = $this->paginator->paginate(
             $query, /* query NOT result */
-            $request->query->getInt('page', 1), /*page number*/
-            10 /*limit per page*/
+            $request->query->getInt('page', 1), /* page number */
+            10 /* limit per page */
         );
 
         $nbOfPages = ceil($items->getTotalItemCount() / 10);

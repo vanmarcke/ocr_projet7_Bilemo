@@ -3,9 +3,7 @@
 namespace App\Controller;
 
 use App\Api\PaginatorApi;
-use App\Manager\UsersManager;
 use App\Manager\UsersManagerInterface;
-use App\Repository\UsersRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +17,7 @@ class UsersController extends AbstractController
     {
     }
 
-    #[Route('/api/users', methods:['GET'], name: 'users_show')]
+    #[Route('/api/users', methods: ['GET'], name: 'users_show')]
     public function showUsers(Request $request): JsonResponse
     {
         $client = $this->getUser();
