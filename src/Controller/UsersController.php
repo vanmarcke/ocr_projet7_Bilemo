@@ -41,7 +41,7 @@ class UsersController extends AbstractController
 
         $user = $this->usersManager->getUserId($client, $id);
 
-        if (null != $user) {
+        if (null !== $user) {
             $this->serializer->serialize($user, 'json', ['groups' => 'user']);
 
             return $this->json($user, Response::HTTP_OK);
