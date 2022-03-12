@@ -22,7 +22,7 @@ class ProductsManager implements ProductsManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function getProductId($id): Products
+    public function getProductId($id)
     {
         return $this->productsRepo->findOneBy(['id' => $id]);
     }
