@@ -24,7 +24,7 @@ class UserManager implements UsersManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function getUserId($client, $id)
+    public function getUserId(clients $client, int $id)
     {
         return $this->usersRepo->findOneByClient($client, $id);
     }
