@@ -15,6 +15,12 @@ class PaginatorApi
         $this->paginator = $paginator;
     }
 
+    /**
+     * Method paginate.
+     *
+     * @param Request $request Request a display of 10 items per page
+     * @param array   $query   Query result
+     */
     public function paginate(Request $request, $query)
     {
         $items = $this->paginator->paginate(
