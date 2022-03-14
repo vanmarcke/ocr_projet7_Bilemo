@@ -75,7 +75,7 @@ class UsersRepository extends ServiceEntityRepository
     }
     */
 
-    public function findByClient($client)
+    public function findByClient(Clients $client)
     {
         return $this->createQueryBuilder('u')
             ->andWhere('u.clients = :clients')
@@ -85,7 +85,7 @@ class UsersRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findOneByClient($client, $id)
+    public function findOneByClient(Clients $client, int $id)
     {
         return $this->createQueryBuilder('u')
             ->andWhere('u.clients = :clients')
