@@ -9,22 +9,22 @@ use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class LoadClient2Fixtures extends Fixture
+class LoadClientSecondFixtures extends Fixture
 {
-    protected UserPasswordHasherInterface $password;
-
-    public function __construct(UserPasswordHasherInterface $password)
+    public function __construct(protected UserPasswordHasherInterface $userPassword)
     {
-        $this->password = $password;
     }
 
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR');
 
-        $clients = (new Clients())
-            ->setEmail('client2@gmail.com');
-        $clients->setPassword($this->password->hashPassword($clients, '123456'));
+        $clients = new Clients();
+        $password = $this->userPassword->hashPassword($clients, '123456');
+        $clients
+            ->setEmail('client2@gmail.com')
+            ->setPassword($password);
+
         $manager->persist($clients);
 
         for ($i = 0; $i < 30; ++$i) {
