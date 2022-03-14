@@ -2,8 +2,6 @@
 
 namespace App\Manager;
 
-use App\Api\PaginatorApi;
-use App\Entity\Products;
 use App\Repository\ProductsRepository;
 
 class ProductsManager implements ProductsManagerInterface
