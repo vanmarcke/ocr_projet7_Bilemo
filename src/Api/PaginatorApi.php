@@ -2,6 +2,7 @@
 
 namespace App\Api;
 
+use Doctrine\DBAL\Query;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -15,12 +16,18 @@ class PaginatorApi
         $this->paginator = $paginator;
     }
 
+    /**
+     * Method paginate.
+     *
+     * @param Request $request Request a display of 10 items per page
+     * @param array   $query   Query result
+     */
     public function paginate(Request $request, $query)
     {
         $items = $this->paginator->paginate(
             $query, /* query NOT result */
-            $request->query->getInt('page', 1), /*page number*/
-            10 /*limit per page*/
+            $request->query->getInt('page', 1), /* page number */
+            10 /* limit per page */
         );
 
         $nbOfPages = ceil($items->getTotalItemCount() / 10);

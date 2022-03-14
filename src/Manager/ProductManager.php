@@ -5,7 +5,7 @@ namespace App\Manager;
 use App\Entity\Products;
 use App\Repository\ProductsRepository;
 
-class ProductsManager implements ProductsManagerInterface
+class ProductManager implements ProductsManagerInterface
 {
     public function __construct(private ProductsRepository $productsRepo)
     {
