@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Clients;
 use App\Entity\Users;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
@@ -73,4 +74,14 @@ class UsersRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findByClient(Clients $client)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.clients = :clients')
+            ->setParameter('clients', $client)
+            ->orderBy('u.id', 'DESC')
+            ->getQuery()
+        ;
+    }
 }
