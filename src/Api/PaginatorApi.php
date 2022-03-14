@@ -2,6 +2,7 @@
 
 namespace App\Api;
 
+use Doctrine\DBAL\Query;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 
