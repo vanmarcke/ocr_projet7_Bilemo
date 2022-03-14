@@ -18,7 +18,7 @@ class ProductsController extends AbstractController
     }
 
     #[Route('/api/products', methods:['GET'], name: 'products_show')]
-    public function showProducts(): JsonResponse
+    public function showProducts(Request $request): JsonResponse
     {
         $productsList = $this->productManager->getProductsList();
 
