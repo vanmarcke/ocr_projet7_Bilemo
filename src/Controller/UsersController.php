@@ -35,7 +35,7 @@ class UsersController extends AbstractController
     }
 
     #[Route('/api/users/{id}', methods: ['GET'], name: 'user_show')]
-    public function showUser($id): JsonResponse
+    public function showUser(int $id): JsonResponse
     {
         $client = $this->getUser();
 
