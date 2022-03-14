@@ -22,7 +22,7 @@ class UsersController extends AbstractController
     {
         $client = $this->getUser();
 
-        $usersList = $this->usersManager->getUsersList($client);
+        $usersList = $this->usersManager->getUserList($client);
 
         $usersList = $this->paginatorApi->paginate(
             $request,
