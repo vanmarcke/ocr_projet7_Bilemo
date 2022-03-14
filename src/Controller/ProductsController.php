@@ -31,4 +31,14 @@ class ProductsController extends AbstractController
 
         return $this->json($productsList, Response::HTTP_OK);
     }
+
+    #[Route('/api/products/{id}', methods:['GET'], name: 'product_show')]
+    public function showProduct(int $id)
+    {
+        $product = $this->productManager->getProductId($id);
+
+        $this->serializer->serialize($product, 'json', ['groups' => 'product']);
+
+        return $this->json($product, Response::HTTP_OK);
+    }
 }
