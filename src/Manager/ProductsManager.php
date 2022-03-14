@@ -2,6 +2,7 @@
 
 namespace App\Manager;
 
+use App\Entity\Products;
 use App\Repository\ProductsRepository;
 
 class ProductsManager implements ProductsManagerInterface
@@ -16,5 +17,13 @@ class ProductsManager implements ProductsManagerInterface
     public function getProductsList(): array
     {
         return $this->productsRepo->ProductsFindAll();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getProductId(int $id): Products
+    {
+        return $this->productsRepo->findOneBy(['id' => $id]);
     }
 }
