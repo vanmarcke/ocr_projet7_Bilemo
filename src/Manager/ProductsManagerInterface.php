@@ -13,13 +13,12 @@ interface ProductsManagerInterface
      */
     public function getProductsList(): array;
 
-    
     /**
      * Method getProductId Contains the information of a single product
      *
-     * @param $id Main product reference
+     * @param int $id Main product reference
      *
      * @return Products
      */
-    public function getProductId($id): Products;
+    public function getProductId(int $id): Products;
 }

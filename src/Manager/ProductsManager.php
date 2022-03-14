@@ -2,7 +2,6 @@
 
 namespace App\Manager;
 
-
 use App\Entity\Products;
 use App\Repository\ProductsRepository;
 
@@ -15,8 +14,16 @@ class ProductsManager implements ProductsManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function getProductId($id): Products
+    public function getProductsList(): array
     {
-        return $this->productsRepo->findOneBy(["id" => $id]);
+        return $this->productsRepo->ProductsFindAll();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getProductId(int $id): Products
+    {
+        return $this->productsRepo->findOneBy(['id' => $id]);
     }
 }

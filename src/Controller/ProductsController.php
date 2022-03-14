@@ -33,7 +33,7 @@ class ProductsController extends AbstractController
     }
 
     #[Route('/api/products/{id}', methods:['GET'], name: 'product_show')]
-    public function showProduct($id)
+    public function showProduct(int $id)
     {
         $product = $this->productManager->getProductId($id);
 
