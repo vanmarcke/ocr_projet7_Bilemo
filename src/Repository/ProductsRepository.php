@@ -79,7 +79,7 @@ class ProductsRepository extends ServiceEntityRepository
      *
      * @return array
      */
-    public function ProductsFindAll(): array
+    public function productsFindAll(): array
     {
         $qb = $this->createQueryBuilder('p')
             ->select()
