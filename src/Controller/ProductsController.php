@@ -20,7 +20,7 @@ class ProductsController extends AbstractController
     #[Route('/api/products', methods:['GET'], name: 'products_show')]
     public function showProducts(Request $request): JsonResponse
     {
-        $productsList = $this->productManager->getProductsList($request);
+        $productsList = $this->productManager->getProductsList();
 
         $productsList = $this->paginatorApi->paginate(
             $request,
