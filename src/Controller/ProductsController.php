@@ -40,7 +40,7 @@ class ProductsController extends AbstractController
     #[Route('/api/products', methods: ['GET'], name: 'products_show')]
     public function showProducts(Request $request): JsonResponse
     {
-        $productsList = $this->productManager->getProductsList($request);
+        $productsList = $this->productManager->getProductsList();
 
         $productsList = $this->paginatorApi->paginate(
             $request,
@@ -64,8 +64,8 @@ class ProductsController extends AbstractController
      *
      * @OA\Tag(name="Products")
      */
-    #[Route('/api/products/{id}', methods: ['GET'], name: 'product_show')]
-    public function showProduct($id)
+    #[Route('/api/products/{id}', methods:['GET'], name: 'product_show')]
+    public function showProduct(int $id)
     {
         $product = $this->productManager->getProductId($id);
 
