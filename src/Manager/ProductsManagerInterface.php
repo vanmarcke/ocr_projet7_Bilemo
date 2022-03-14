@@ -18,5 +18,5 @@ interface ProductsManagerInterface
      *
      * @param int $id Main product reference
      */
-    public function getProductId(int $id): Products;
+    public function getProductId(int $id);
 }

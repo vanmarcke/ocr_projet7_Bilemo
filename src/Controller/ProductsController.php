@@ -65,12 +65,16 @@ class ProductsController extends AbstractController
      * @OA\Tag(name="Products")
      */
     #[Route('/api/products/{id}', methods: ['GET'], name: 'product_show')]
-    public function showProduct($id)
+    public function showProduct(int $id): JsonResponse
     {
         $product = $this->productManager->getProductId($id);
 
-        $this->serializer->serialize($product, 'json', ['groups' => 'product']);
+        if (null !== $product) {
+            $this->serializer->serialize($product, 'json', ['groups' => 'product']);
 
-        return $this->json($product, Response::HTTP_OK);
+            return $this->json($product, Response::HTTP_OK);
+        }
+
+        return $this->json($product, Response::HTTP_NOT_FOUND);
     }
 }
