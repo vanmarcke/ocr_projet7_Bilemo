@@ -20,7 +20,7 @@ class PaginatorApi
      * Method paginate.
      *
      * @param Request $request Request a display of 10 items per page
-     * @param array   $query   Query result
+     * @param         $query   Query result
      */
     public function paginate(Request $request, $query)
     {
