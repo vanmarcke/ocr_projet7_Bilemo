@@ -2,21 +2,21 @@
 
 namespace App\Controller;
 
-use App\Api\PaginatorApi;
+use App\Api\ApiHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\SerializerInterface;
 use OpenApi\Annotations as OA;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use App\Entity\Products;
 use App\Manager\ProductsManagerInterface;
+use JMS\Serializer\SerializerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 class ProductsController extends AbstractController
 {
-    public function __construct(private SerializerInterface $serializer, private ProductsManagerInterface $productManager, private PaginatorApi $paginatorApi)
+    public function __construct(private ApiHelper $apiHelper, private SerializerInterface $serializer, private ProductsManagerInterface $productManager, private PaginatorInterface $paginator)
     {
     }
 
@@ -25,6 +25,8 @@ class ProductsController extends AbstractController
      *     response=200,
      *     description="Returns Products collection (paginated)",
      *     @OA\JsonContent(
+     *        type="array",
+     *        @OA\Items(ref=@Model(type=Products::class))
      *     )
      * )
      *
@@ -38,18 +40,15 @@ class ProductsController extends AbstractController
      * @OA\Tag(name="Products")
      */
     #[Route('/api/products', methods: ['GET'], name: 'products_show')]
-    public function showProducts(Request $request): JsonResponse
+    public function showProducts(Request $request): Response
     {
-        $productsList = $this->productManager->getProductsList();
+        $products = $this->productManager->getProductsList();
 
-        $productsList = $this->paginatorApi->paginate(
-            $request,
-            $productsList
-        );
+        $productsList = $this->paginator->paginate($products, $request->query->getInt('page', 1), 10);
 
-        $this->serializer->serialize($productsList, 'json', ['groups' => 'show_products']);
+        $json = $this->serializer->serialize($productsList, 'json');
 
-        return $this->json($productsList, Response::HTTP_OK);
+        return new Response($json, Response::HTTP_OK, ['Content-Type' => 'application/json']);
     }
 
     /**
@@ -58,23 +57,23 @@ class ProductsController extends AbstractController
      *     description="Returns Product Entity",
      *     @OA\JsonContent(
      *          type="array",
-     *          @OA\Items(ref=@Model(type=Products::class, groups={"product"}))
+     *          @OA\Items(ref=@Model(type=Products::class))
      *     )
      * )
      *
      * @OA\Tag(name="Products")
      */
-    #[Route('/api/products/{id}', methods: ['GET'], name: 'product_show')]
-    public function showProduct(int $id): JsonResponse
+    #[Route('/api/products/{id}', methods: ['GET'], name: 'product_show', requirements: ['id' => '\d+'])]
+    public function showProduct(int $id): Response
     {
         $product = $this->productManager->getProductId($id);
 
         if (null !== $product) {
-            $this->serializer->serialize($product, 'json', ['groups' => 'product']);
+            $json = $this->serializer->serialize($product, 'json');
 
-            return $this->json($product, Response::HTTP_OK);
+            return new Response($json, Response::HTTP_OK, ['Content-Type' => 'application/json']);
         }
 
-        return $this->json($product, Response::HTTP_NOT_FOUND);
+        return $this->apiHelper->notFoundResponse();
     }
 }

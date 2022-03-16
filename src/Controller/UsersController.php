@@ -2,21 +2,21 @@
 
 namespace App\Controller;
 
-use App\Api\PaginatorApi;
+use App\Api\ApiHelper;
 use App\Manager\UsersManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\SerializerInterface;
 use OpenApi\Annotations as OA;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use App\Entity\Users;
+use Knp\Component\Pager\PaginatorInterface;
+use JMS\Serializer\SerializerInterface;
 
 class UsersController extends AbstractController
 {
-    public function __construct(private SerializerInterface $serializer, private UsersManagerInterface $usersManager, private PaginatorApi $paginatorApi)
+    public function __construct(private ApiHelper $apiHelper, private SerializerInterface $serializer, private UsersManagerInterface $usersManager, private PaginatorInterface $paginator)
     {
     }
 
@@ -25,33 +25,32 @@ class UsersController extends AbstractController
      *     response=200,
      *     description="Returns Users collection (paginated)",
      *     @OA\JsonContent(
+     *        type="array",
+     *        @OA\Items(ref=@Model(type=Users::class))
      *     )
      * )
-     * 
+     *
      * @OA\Parameter(
      *     name="page",
      *     in="query",
      *     description="Page you need (leave empty if you want the first one)",
      *     @OA\Schema(type="int")
      * )
-     * 
+     *
      * @OA\Tag(name="Users")
      */
     #[Route('/api/users', methods: ['GET'], name: 'users_show')]
-    public function showUsers(Request $request): JsonResponse
+    public function showUsers(Request $request): Response
     {
         $client = $this->getUser();
 
-        $usersList = $this->usersManager->getUserList($client);
+        $users = $this->usersManager->getUserList($client);
 
-        $usersList = $this->paginatorApi->paginate(
-            $request,
-            $usersList
-        );
+        $usersList = $this->paginator->paginate($users, $request->query->getInt('page', 1), 10);
 
-        $this->serializer->serialize($usersList, 'json', ['groups' => 'show_users']);
+        $json = $this->serializer->serialize($usersList, 'json');
 
-        return $this->json($usersList, Response::HTTP_OK);
+        return new Response($json, Response::HTTP_OK, ['Content-Type' => 'application/json']);
     }
 
     /**
@@ -60,25 +59,25 @@ class UsersController extends AbstractController
      *     description="Returns Users entity",
      *     @OA\JsonContent(
      *          type="array",
-     *          @OA\Items(ref=@Model(type=Users::class, groups={"user"}))
+     *          @OA\Items(ref=@Model(type=Users::class))
      *     )
      * )
-     * 
+     *
      * @OA\Tag(name="Users")
      */
     #[Route('/api/users/{id}', methods: ['GET'], name: 'user_show')]
-    public function showUser(int $id): JsonResponse
+    public function showUser(int $id): Response
     {
         $client = $this->getUser();
 
         $user = $this->usersManager->getUserId($client, $id);
 
         if (null !== $user) {
-            $this->serializer->serialize($user, 'json', ['groups' => 'user']);
+            $json = $this->serializer->serialize($user, 'json');
 
-            return $this->json($user, Response::HTTP_OK);
+            return new Response($json, Response::HTTP_OK, ['Content-Type' => 'application/json']);
         }
 
-        return $this->json($user, Response::HTTP_NOT_FOUND);
+        return $this->apiHelper->notFoundResponse();
     }
 }

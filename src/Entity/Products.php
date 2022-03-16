@@ -7,37 +7,46 @@ namespace App\Entity;
 use App\Repository\ProductsRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Hateoas\Configuration\Annotation as Hateoas;
+use JMS\Serializer\Annotation as Serializer;
 
+/**
+ * @Hateoas\Relation(
+ *      "self",
+ *      href=@Hateoas\Route(
+ *          "product_show",
+ *          parameters={"id" = "expr(object.getId())" },
+ *          absolute = true
+ *      )
+ * )
+ */
 #[ORM\Entity(repositoryClass: ProductsRepository::class)]
 class Products
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(['show_products', 'product'])]
+    #[Serializer\Groups(["show_products", "product"])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(['show_products', 'product'])]
+    #[Serializer\Groups(["show_products", "product"])]
     private $name;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(['product'])]
+    #[Serializer\Groups(["product"])]
     private $brand;
 
     #[ORM\Column(type: 'float')]
-    #[Groups(['product'])]
+    #[Serializer\Groups(["product"])]
     private $size;
 
     #[ORM\Column(type: 'float')]
-    #[Groups(['show_products', 'product'])]
+    #[Serializer\Groups(["show_products", "product"])]
     private $price;
 
-    #[Groups(['show_products'])]
-    private $path;
-
     #[ORM\Column(type: 'text')]
-    #[Groups(['show_products', 'product'])]
+    #[Serializer\Groups(["show_products", "product"])]
     private $description;
 
     public function getId(): ?int
@@ -91,11 +100,6 @@ class Products
         $this->price = $price;
 
         return $this;
-    }
-
-    public function getPath(): string
-    {
-        return '/api/products/' . $this->id;
     }
 
     public function getDescription(): ?string
