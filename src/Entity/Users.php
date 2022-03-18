@@ -5,15 +5,17 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\UsersRepository;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 use Hateoas\Configuration\Annotation as Hateoas;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
-use JMS\Serializer\Annotation\Exclude;
-use JMS\Serializer\Annotation as Serializer;
+use JMS\Serializer\Annotation\Groups;
+use OpenApi\Annotations as OA;
+use JMS\Serializer\Annotation\Type;
 
 /**
+ * @OA\Schema()
+ *
  * @Hateoas\Relation(
  *      "self",
  *      href=@Hateoas\Route(
@@ -22,8 +24,8 @@ use JMS\Serializer\Annotation as Serializer;
  *          absolute = true
  *      )
  * )
- * 
- * @ExclusionPolicy("all")
+ *
+ * @ExclusionPolicy("ALL")
  */
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
 class Users
@@ -31,31 +33,35 @@ class Users
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Serializer\Groups(["show_users", "user"])]
+    #[Groups(['show_users', 'user'])]
     #[Expose]
+    #[Type('integer')]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Serializer\Groups(["show_users", "user"])]
+    #[Groups(['show_users', 'user'])]
     #[Expose]
+    #[Type('string')]
     private $firstname;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Serializer\Groups(["show_users", "user"])]
+    #[Groups(['show_users', 'user'])]
     #[Expose]
+    #[Type('string')]
     private $lastname;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Serializer\Groups(["user"])]
+    #[Groups(['user'])]
     #[Expose]
+    #[Type('string')]
     private $email;
 
     #[ORM\Column(type: 'text')]
-    #[Serializer\Groups(["user"])]
+    #[Groups(['user'])]
     #[Expose]
+    #[Type('string')]
     private $address;
 
-    #[Exclude]
     #[ORM\ManyToOne(targetEntity: Clients::class)]
     #[ORM\JoinColumn(nullable: false)]
     private $clients;

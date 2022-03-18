@@ -6,11 +6,16 @@ namespace App\Entity;
 
 use App\Repository\ProductsRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Hateoas\Configuration\Annotation as Hateoas;
-use JMS\Serializer\Annotation as Serializer;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\Type;
+use OpenApi\Annotations as OA;
 
 /**
+ * @OA\Schema()
+ *
  * @Hateoas\Relation(
  *      "self",
  *      href=@Hateoas\Route(
@@ -19,6 +24,8 @@ use JMS\Serializer\Annotation as Serializer;
  *          absolute = true
  *      )
  * )
+ *
+ * @ExclusionPolicy("ALL")
  */
 #[ORM\Entity(repositoryClass: ProductsRepository::class)]
 class Products
@@ -26,27 +33,39 @@ class Products
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Serializer\Groups(["show_products", "product"])]
+    #[Groups(['show_products', 'product'])]
+    #[Expose]
+    #[Type('integer')]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Serializer\Groups(["show_products", "product"])]
+    #[Groups(['show_products', 'product'])]
+    #[Expose]
+    #[Type('string')]
     private $name;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Serializer\Groups(["product"])]
+    #[Groups(['product'])]
+    #[Expose]
+    #[Type('string')]
     private $brand;
 
     #[ORM\Column(type: 'float')]
-    #[Serializer\Groups(["product"])]
+    #[Groups(['product'])]
+    #[Expose]
+    #[Type('float')]
     private $size;
 
     #[ORM\Column(type: 'float')]
-    #[Serializer\Groups(["show_products", "product"])]
+    #[Groups(['show_products', 'product'])]
+    #[Expose]
+    #[Type('float')]
     private $price;
 
     #[ORM\Column(type: 'text')]
-    #[Serializer\Groups(["show_products", "product"])]
+    #[Groups(['show_products', 'product'])]
+    #[Expose]
+    #[Type('string')]
     private $description;
 
     public function getId(): ?int

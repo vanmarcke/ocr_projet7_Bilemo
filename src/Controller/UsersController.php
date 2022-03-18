@@ -11,8 +11,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use OpenApi\Annotations as OA;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use App\Entity\Users;
+use JMS\Serializer\SerializationContext;
 use Knp\Component\Pager\PaginatorInterface;
 use JMS\Serializer\SerializerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class UsersController extends AbstractController
 {
@@ -26,7 +28,7 @@ class UsersController extends AbstractController
      *     description="Returns Users collection (paginated)",
      *     @OA\JsonContent(
      *        type="array",
-     *        @OA\Items(ref=@Model(type=Users::class))
+     *        @OA\Items(ref=@Model(type=Users::class, groups={"show_users"}))
      *     )
      * )
      *
@@ -40,7 +42,7 @@ class UsersController extends AbstractController
      * @OA\Tag(name="Users")
      */
     #[Route('/api/users', methods: ['GET'], name: 'users_show')]
-    public function showUsers(Request $request): Response
+    public function showUsers(Request $request): JsonResponse
     {
         $client = $this->getUser();
 
@@ -48,9 +50,11 @@ class UsersController extends AbstractController
 
         $usersList = $this->paginator->paginate($users, $request->query->getInt('page', 1), 10);
 
+        // $json = $this->serializer->serialize($usersList, 'json', SerializationContext::create()->setGroups(array('show_users')));
+
         $json = $this->serializer->serialize($usersList, 'json');
 
-        return new Response($json, Response::HTTP_OK, ['Content-Type' => 'application/json']);
+        return new jsonResponse($json, Response::HTTP_OK, [], true);
     }
 
     /**
@@ -59,23 +63,23 @@ class UsersController extends AbstractController
      *     description="Returns Users entity",
      *     @OA\JsonContent(
      *          type="array",
-     *          @OA\Items(ref=@Model(type=Users::class))
+     *          @OA\Items(ref=@Model(type=Users::class, groups={"user"}))
      *     )
      * )
      *
      * @OA\Tag(name="Users")
      */
     #[Route('/api/users/{id}', methods: ['GET'], name: 'user_show')]
-    public function showUser(int $id): Response
+    public function showUser(int $id): JsonResponse
     {
         $client = $this->getUser();
 
         $user = $this->usersManager->getUserId($client, $id);
 
         if (null !== $user) {
-            $json = $this->serializer->serialize($user, 'json');
+            $json = $this->serializer->serialize($user, 'json', SerializationContext::create()->setGroups('user'));
 
-            return new Response($json, Response::HTTP_OK, ['Content-Type' => 'application/json']);
+            return new jsonResponse($json, Response::HTTP_OK, [], true);
         }
 
         return $this->apiHelper->notFoundResponse();

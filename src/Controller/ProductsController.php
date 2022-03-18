@@ -11,8 +11,11 @@ use OpenApi\Annotations as OA;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use App\Entity\Products;
 use App\Manager\ProductsManagerInterface;
+use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Entity\Product;
 
 class ProductsController extends AbstractController
 {
@@ -26,7 +29,7 @@ class ProductsController extends AbstractController
      *     description="Returns Products collection (paginated)",
      *     @OA\JsonContent(
      *        type="array",
-     *        @OA\Items(ref=@Model(type=Products::class))
+     *        @OA\Items(ref=@Model(type=Products::class, groups={"show_products"}))
      *     )
      * )
      *
@@ -40,15 +43,15 @@ class ProductsController extends AbstractController
      * @OA\Tag(name="Products")
      */
     #[Route('/api/products', methods: ['GET'], name: 'products_show')]
-    public function showProducts(Request $request): Response
+    public function showProducts(Request $request): JsonResponse
     {
         $products = $this->productManager->getProductsList();
 
-        $productsList = $this->paginator->paginate($products, $request->query->getInt('page', 1), 10);
+        // $productsList = $this->paginator->paginate($products, $request->query->getInt('page', 1), 10);
 
-        $json = $this->serializer->serialize($productsList, 'json');
+        $json = $this->serializer->serialize($products, 'json', SerializationContext::create()->setGroups('show_products'));
 
-        return new Response($json, Response::HTTP_OK, ['Content-Type' => 'application/json']);
+        return new JsonResponse($json, Response::HTTP_OK, [], true);
     }
 
     /**
@@ -57,21 +60,21 @@ class ProductsController extends AbstractController
      *     description="Returns Product Entity",
      *     @OA\JsonContent(
      *          type="array",
-     *          @OA\Items(ref=@Model(type=Products::class))
+     *          @OA\Items(ref=@Model(type=Products::class, groups={"product"}))
      *     )
      * )
      *
      * @OA\Tag(name="Products")
      */
     #[Route('/api/products/{id}', methods: ['GET'], name: 'product_show', requirements: ['id' => '\d+'])]
-    public function showProduct(int $id): Response
+    public function showProduct(int $id): JsonResponse
     {
         $product = $this->productManager->getProductId($id);
 
         if (null !== $product) {
-            $json = $this->serializer->serialize($product, 'json');
+            $json = $this->serializer->serialize($product, 'json', SerializationContext::create()->setGroups('product'));
 
-            return new Response($json, Response::HTTP_OK, ['Content-Type' => 'application/json']);
+            return new jsonResponse($json, Response::HTTP_OK, [], true);
         }
 
         return $this->apiHelper->notFoundResponse();

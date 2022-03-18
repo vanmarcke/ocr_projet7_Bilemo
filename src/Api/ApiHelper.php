@@ -2,6 +2,7 @@
 
 namespace App\Api;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class ApiHelper
@@ -9,16 +10,14 @@ class ApiHelper
     /**
      * Method notFoundResponse.
      *
-     * @return Response Returns 404 error message
+     * @return JsonResponse Returns 404 error message
      */
-    public function notFoundResponse(): Response
+    public function notFoundResponse(): JsonResponse
     {
         $error = json_encode([
             'error' => 'data not found',
         ]);
 
-        return new Response($error, Response::HTTP_NOT_FOUND, [
-            'Content-Type' => 'application/json',
-        ]);
+        return new JsonResponse($error, Response::HTTP_NOT_FOUND, [], true);
     }
 }
