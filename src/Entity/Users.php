@@ -21,9 +21,9 @@ use JMS\Serializer\Annotation\Type;
  *      href=@Hateoas\Route(
  *          "user_show",
  *          parameters={"id" = "expr(object.getId())" },
- *          absolute = true
+ *          absolute = true),
+ *          exclusion = @Hateoas\Exclusion(groups={"default","show_users"})
  *      )
- * )
  *
  * @ExclusionPolicy("ALL")
  */

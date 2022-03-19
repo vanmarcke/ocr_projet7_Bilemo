@@ -21,9 +21,9 @@ use OpenApi\Annotations as OA;
  *      href=@Hateoas\Route(
  *          "product_show",
  *          parameters={"id" = "expr(object.getId())" },
- *          absolute = true
+ *          absolute = true),
+ *          exclusion = @Hateoas\Exclusion(groups={"default","show_products"})
  *      )
- * )
  *
  * @ExclusionPolicy("ALL")
  */
