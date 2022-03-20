@@ -141,4 +141,20 @@ class UsersController extends AbstractController
 
         return $this->apiHelper->notFoundResponse();
     }
+
+    #[Route('/api/users/{id}', methods: ['DELETE'], name: 'user_delete')]
+    public function deleteUser($id)
+    {
+        $client = $this->getUser();
+
+        $user = $this->usersManager->getUserId($client, $id);
+
+        if (!empty($user)) {
+            $user = $this->usersManager->removeUser($user);
+
+            return $this->apiHelper->deletedResponse();
+        }
+
+        return $this->apiHelper->forbiddenResponse();
+    }
 }

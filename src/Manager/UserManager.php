@@ -5,11 +5,12 @@ namespace App\Manager;
 use App\Entity\Clients;
 use App\Entity\Users;
 use App\Repository\UsersRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
 
 class UserManager implements UsersManagerInterface
 {
-    public function __construct(private UsersRepository $usersRepo)
+    public function __construct(private EntityManagerInterface $em, private UsersRepository $usersRepo)
     {
     }
 
@@ -24,8 +25,17 @@ class UserManager implements UsersManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function getUserId(clients $client, int $id)
+    public function getUserId(clients $client, int $id): ?Users
     {
         return $this->usersRepo->findOneByClient($client, $id);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function removeUser(Users $user): void
+    {
+        $this->em->remove($user);
+        $this->em->flush();
     }
 }
