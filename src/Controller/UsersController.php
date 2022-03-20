@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Api\ApiHelper;
+use App\Api\FormHelper;
 use App\Manager\UsersManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,6 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use OpenApi\Annotations as OA;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use App\Entity\Users;
+use App\Form\UserType;
+use Doctrine\ORM\EntityManagerInterface;
 use JMS\Serializer\SerializationContext;
 use Knp\Component\Pager\PaginatorInterface;
 use JMS\Serializer\SerializerInterface;
@@ -18,7 +21,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class UsersController extends AbstractController
 {
-    public function __construct(private ApiHelper $apiHelper, private SerializerInterface $serializer, private UsersManagerInterface $usersManager, private PaginatorInterface $paginator)
+    public function __construct(private EntityManagerInterface $em, private ApiHelper $apiHelper, private SerializerInterface $serializer, private UsersManagerInterface $usersManager, private PaginatorInterface $paginator)
     {
     }
 
@@ -81,5 +84,29 @@ class UsersController extends AbstractController
         }
 
         return $this->apiHelper->notFoundResponse();
+    }
+
+    #[Route('/api/users', methods: ['POST'], name: 'user_add')]
+    public function postUser(Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $client = $this->getUser();
+        $user = (new Users())->setClients($client);
+
+        $userForm = $this->createForm(UserType::class, $user);
+        $userForm->submit($data);
+
+        if ($userForm->isValid()) {
+            $this->em->persist($user);
+            $this->em->flush();
+            $user = $this->apiHelper->serializeUser($user);
+
+            return $this->apiHelper->createdResponse($user);
+        } else {
+            $errors = FormHelper::getErrors($userForm);
+
+            return $this->apiHelper->badRequest($errors);
+        }
     }
 }
