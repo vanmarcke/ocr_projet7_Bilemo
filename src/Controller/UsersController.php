@@ -26,6 +26,8 @@ class UsersController extends AbstractController
     }
 
     /**
+     * View all users assigned to a customer.
+     *
      * @OA\Response(
      *     response=200,
      *     description="Returns Users collection (paginated)",
@@ -61,6 +63,8 @@ class UsersController extends AbstractController
     }
 
     /**
+     * View a user assigned to a customer.
+     *
      * @OA\Response(
      *     response=200,
      *     description="Returns Users entity",
@@ -88,6 +92,22 @@ class UsersController extends AbstractController
         return $this->apiHelper->notFoundResponse();
     }
 
+    /**
+     * Add a user assigned to a customer.
+     *
+     * @OA\Response(
+     *     response=201,
+     *     description="Add User with all these informations",
+     *     @OA\JsonContent(
+     *     )
+     * )
+     *
+     * @OA\RequestBody(
+     *      @Model(type=Users::class, groups={"user_add"}))
+     * )
+     *
+     * @OA\Tag(name="Users")
+     */
     #[Route('/api/users', methods: ['POST'], name: 'user_add')]
     public function postUser(Request $request)
     {
@@ -112,6 +132,24 @@ class UsersController extends AbstractController
         }
     }
 
+    /**
+     * Edit a user assigned to a customer.
+     *
+     * @OA\Response(
+     *     response=200,
+     *     description="Update User with all these informations",
+     *     @OA\JsonContent(
+     *          type="array",
+     *          @OA\Items(ref=@Model(type=Users::class, groups={"user_add"}))
+     *     )
+     * )
+     *
+     * @OA\RequestBody(
+     *      @Model(type=Users::class, groups={"user_add"}))
+     * )
+     *
+     * @OA\Tag(name="Users")
+     */
     #[Route('/api/users/{id}', methods: ['PUT'], name: 'user_patch')]
     public function patchUser($id, Request $request)
     {
@@ -144,6 +182,16 @@ class UsersController extends AbstractController
         return $this->apiHelper->notFoundResponse();
     }
 
+    /**
+     * Delete a user assigned to a customer.
+     *
+     * @OA\Response(
+     *     response=204,
+     *     description="User deleted by id"
+     * )
+     *
+     * @OA\Tag(name="Users")
+     */
     #[Route('/api/users/{id}', methods: ['DELETE'], name: 'user_delete')]
     public function deleteUser($id)
     {

@@ -33,7 +33,25 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          absolute = true
  *      )
  * )
- *
+ * 
+ * @Hateoas\Relation(
+ *      "update",
+ *      href=@Hateoas\Route(
+ *          "user_patch",
+ *          parameters={"id" = "expr(object.getId())" },
+ *          absolute = true
+ *      )
+ * )
+ * 
+ * @Hateoas\Relation(
+ *      "delete",
+ *      href=@Hateoas\Route(
+ *          "user_delete",
+ *          parameters={"id" = "expr(object.getId())" },
+ *          absolute = true
+ *      )
+ * )
+ * 
  * @ExclusionPolicy("ALL")
  */
 #[ORM\Entity(repositoryClass: UsersRepository::class)]

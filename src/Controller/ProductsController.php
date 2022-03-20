@@ -24,6 +24,8 @@ class ProductsController extends AbstractController
     }
 
     /**
+     * View all available products.
+     *
      * @OA\Response(
      *     response=200,
      *     description="Returns Products collection (paginated)",
@@ -55,6 +57,8 @@ class ProductsController extends AbstractController
     }
 
     /**
+     * View an available product.
+     *
      * @OA\Response(
      *     response=200,
      *     description="Returns Product Entity",
