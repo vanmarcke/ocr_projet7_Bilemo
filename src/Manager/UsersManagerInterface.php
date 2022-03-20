@@ -3,6 +3,7 @@
 namespace App\Manager;
 
 use App\Entity\Clients;
+use App\Entity\Users;
 use Doctrine\ORM\Query;
 
 interface UsersManagerInterface
@@ -20,5 +21,12 @@ interface UsersManagerInterface
      * @param Clients $client Reference to identified client ID
      * @param int     $id     Reference to Requested Id
      */
-    public function getUserId(Clients $client, int $id);
+    public function getUserId(Clients $client, int $id): ?Users;
+
+    /**
+     * Method removeUser.
+     *
+     * @param Users $user contains user information
+     */
+    public function removeUser(Users $user): void;
 }

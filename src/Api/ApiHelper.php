@@ -88,4 +88,28 @@ class ApiHelper
     {
         return new JsonResponse(json_encode($value), $code, [], true);
     }
+
+    /**
+     * Method deletedResponse.
+     *
+     * @return JsonResponse Returns code 204 message
+     */
+    public function deletedResponse(): JsonResponse
+    {
+        return new JsonResponse('', Response::HTTP_NO_CONTENT, [], true);
+    }
+
+    /**
+     * Method forbiddenResponse.
+     *
+     * @return JsonResponse Returns code 403 error message
+     */
+    public function forbiddenResponse(): JsonResponse
+    {
+        $error = json_encode([
+            'error' => 'forbidden: you cannot do this action',
+        ]);
+
+        return new JsonResponse($error, Response::HTTP_FORBIDDEN, [], true);
+    }
 }
