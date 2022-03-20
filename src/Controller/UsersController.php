@@ -111,4 +111,36 @@ class UsersController extends AbstractController
             return $this->apiHelper->badRequest($errors);
         }
     }
+
+    #[Route('/api/users/{id}', methods: ['PUT'], name: 'user_patch')]
+    public function patchUser($id, Request $request)
+    {
+        $client = $this->getUser();
+        $user = $this->usersManager->getUserId($client, $id);
+
+        if (!empty($user)) {
+            $data = json_decode($request->getContent(), true);
+            $checker = FormHelper::checkFields($data);
+            if (!empty($checker)) {
+                return $this->apiHelper->badRequest($checker);
+            }
+            $client = $this->getUser();
+
+            $userForm = $this->createForm(UserType::class, $user);
+            $userForm->submit($data, false);
+            if ($userForm->isValid()) {
+                $this->em->persist($user);
+                $this->em->flush();
+                $user = $this->apiHelper->serializeUser($user);
+
+                return $this->apiHelper->updatedResponse($user);
+            } else {
+                $errors = FormHelper::getErrors($userForm);
+
+                return $this->apiHelper->response($errors, 400);
+            }
+        }
+
+        return $this->apiHelper->notFoundResponse();
+    }
 }

@@ -63,4 +63,29 @@ class ApiHelper
     {
         return new jsonResponse($errors, Response::HTTP_BAD_REQUEST, []);
     }
+
+    /**
+     * Method updatedResponse.
+     *
+     * @param string $entity Contains user values
+     *
+     * @return JsonResponse Returns code 200 message
+     */
+    public function updatedResponse(string $entity): JsonResponse
+    {
+        return new jsonResponse($entity, Response::HTTP_OK, [], true);
+    }
+
+    /**
+     * Method response.
+     *
+     * @param array $value Contains error elements
+     * @param int   $code  Contains the error code
+     *
+     * @return JsonResponse Returns errors and code message
+     */
+    public function response(array $value, int $code): JsonResponse
+    {
+        return new JsonResponse(json_encode($value), $code, [], true);
+    }
 }
