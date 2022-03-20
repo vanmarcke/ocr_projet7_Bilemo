@@ -12,6 +12,7 @@ use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\Groups;
 use OpenApi\Annotations as OA;
 use JMS\Serializer\Annotation\Type;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @OA\Schema()
@@ -24,6 +25,14 @@ use JMS\Serializer\Annotation\Type;
  *          absolute = true),
  *          exclusion = @Hateoas\Exclusion(groups={"default","show_users"})
  *      )
+ *
+ * @Hateoas\Relation(
+ *      "create",
+ *      href=@Hateoas\Route(
+ *          "user_add",
+ *          absolute = true
+ *      )
+ * )
  *
  * @ExclusionPolicy("ALL")
  */
@@ -39,27 +48,32 @@ class Users
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(['show_users', 'user'])]
+    #[Groups(['show_users', 'user_add'])]
     #[Expose]
     #[Type('string')]
+    #[Assert\NotBlank]
     private $firstname;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(['show_users', 'user'])]
+    #[Groups(['show_users', 'user_add'])]
     #[Expose]
     #[Type('string')]
+    #[Assert\NotBlank]
     private $lastname;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(['user'])]
+    #[Groups(['user', 'user_add'])]
     #[Expose]
     #[Type('string')]
+    #[Assert\Email]
+    #[Assert\NotBlank]
     private $email;
 
     #[ORM\Column(type: 'text')]
-    #[Groups(['user'])]
+    #[Groups(['user', 'user_add'])]
     #[Expose]
     #[Type('string')]
+    #[Assert\NotBlank]
     private $address;
 
     #[ORM\ManyToOne(targetEntity: Clients::class)]
