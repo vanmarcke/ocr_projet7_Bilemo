@@ -5,10 +5,28 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\UsersRepository;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Ignore;
+use Hateoas\Configuration\Annotation as Hateoas;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Groups;
+use OpenApi\Annotations as OA;
+use JMS\Serializer\Annotation\Type;
 
+/**
+ * @OA\Schema()
+ *
+ * @Hateoas\Relation(
+ *      "self",
+ *      href=@Hateoas\Route(
+ *          "user_show",
+ *          parameters={"id" = "expr(object.getId())" },
+ *          absolute = true),
+ *          exclusion = @Hateoas\Exclusion(groups={"default","show_users"})
+ *      )
+ *
+ * @ExclusionPolicy("ALL")
+ */
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
 class Users
 {
@@ -16,27 +34,34 @@ class Users
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     #[Groups(['show_users', 'user'])]
+    #[Expose]
+    #[Type('integer')]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups(['show_users', 'user'])]
+    #[Expose]
+    #[Type('string')]
     private $firstname;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups(['show_users', 'user'])]
+    #[Expose]
+    #[Type('string')]
     private $lastname;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups(['user'])]
+    #[Expose]
+    #[Type('string')]
     private $email;
 
     #[ORM\Column(type: 'text')]
     #[Groups(['user'])]
+    #[Expose]
+    #[Type('string')]
     private $address;
 
-    /**
-     * @Ignore()
-     */
     #[ORM\ManyToOne(targetEntity: Clients::class)]
     #[ORM\JoinColumn(nullable: false)]
     private $clients;
@@ -85,11 +110,6 @@ class Users
     public function getAddress(): ?string
     {
         return $this->address;
-    }
-
-    public function getPath(): string
-    {
-        return "/api/users/" . $this->id;
     }
 
     public function setAddress(string $address): self
