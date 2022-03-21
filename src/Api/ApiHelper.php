@@ -15,20 +15,6 @@ class ApiHelper
     }
 
     /**
-     * Method notFoundResponse.
-     *
-     * @return JsonResponse Returns 404 error message
-     */
-    public function notFoundResponse(): JsonResponse
-    {
-        $error = json_encode([
-            'error' => 'data not found',
-        ]);
-
-        return new JsonResponse($error, Response::HTTP_NOT_FOUND, [], true);
-    }
-
-    /**
      * Method serializeUser.
      *
      * @param Users $user Contains user values
@@ -53,18 +39,6 @@ class ApiHelper
     }
 
     /**
-     * Method updatedResponse.
-     *
-     * @param string $entity Contains user values
-     *
-     * @return JsonResponse Returns code 200 message
-     */
-    public function updatedResponse(string $entity): JsonResponse
-    {
-        return new jsonResponse($entity, Response::HTTP_OK, [], true);
-    }
-
-    /**
      * Method response.
      *
      * @param array $value Contains error elements
@@ -75,29 +49,5 @@ class ApiHelper
     public function response(array $value, int $code): JsonResponse
     {
         return new JsonResponse(json_encode($value), $code, [], true);
-    }
-
-    /**
-     * Method validResponse.
-     *
-     * @return JsonResponse Returns code 200 message
-     */
-    public function validResponse(string $entity): JsonResponse
-    {
-        return new jsonResponse($entity, Response::HTTP_OK, [], true);
-    }
-
-    /**
-     * Method forbiddenResponse.
-     *
-     * @return JsonResponse Returns code 403 error message
-     */
-    public function forbiddenResponse(): JsonResponse
-    {
-        $error = json_encode([
-            'error' => 'forbidden: you cannot do this action',
-        ]);
-
-        return new JsonResponse($error, Response::HTTP_FORBIDDEN, [], true);
     }
 }

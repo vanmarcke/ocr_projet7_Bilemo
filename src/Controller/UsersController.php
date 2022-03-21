@@ -18,6 +18,7 @@ use JMS\Serializer\SerializationContext;
 use Knp\Component\Pager\PaginatorInterface;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class UsersController extends AbstractController
 {
@@ -87,7 +88,7 @@ class UsersController extends AbstractController
             return JsonResponse::fromJsonString($json, Response::HTTP_OK);
         }
 
-        return $this->apiHelper->notFoundResponse();
+        throw new HttpException(404, 'Data Not Found');
     }
 
     /**
@@ -177,7 +178,7 @@ class UsersController extends AbstractController
             }
         }
 
-        return $this->apiHelper->notFoundResponse();
+        throw new HttpException(404, 'Data Not Found');
     }
 
     /**
@@ -203,6 +204,6 @@ class UsersController extends AbstractController
             return JsonResponse::fromJsonString('', Response::HTTP_NO_CONTENT);
         }
 
-        return $this->apiHelper->forbiddenResponse();
+        throw new HttpException(403, 'forbidden: you cannot do this action');
     }
 }
