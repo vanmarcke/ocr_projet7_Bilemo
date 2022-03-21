@@ -55,7 +55,7 @@ class UsersController extends AbstractController
 
         $json = $this->serializer->serialize($usersList, 'json');
 
-        return new jsonResponse($json, Response::HTTP_OK, [], true);
+        return JsonResponse::fromJsonString($json, Response::HTTP_OK);
     }
 
     /**
@@ -80,7 +80,7 @@ class UsersController extends AbstractController
         if (null !== $user) {
             $json = $this->serializer->serialize($user, 'json', SerializationContext::create()->setGroups('user'));
 
-            return new jsonResponse($json, Response::HTTP_OK, [], true);
+            return JsonResponse::fromJsonString($json, Response::HTTP_OK);
         }
 
         return $this->apiHelper->notFoundResponse();
@@ -131,7 +131,7 @@ class UsersController extends AbstractController
                 $this->em->flush();
                 $user = $this->apiHelper->serializeUser($user);
 
-                return $this->apiHelper->updatedResponse($user);
+                return JsonResponse::fromJsonString($user, Response::HTTP_OK);
             } else {
                 $errors = FormHelper::getErrors($userForm);
 
