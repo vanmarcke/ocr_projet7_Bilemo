@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Api\ApiHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use OpenApi\Annotations as OA;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -15,7 +14,8 @@ use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Entity\Product;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class ProductsController extends AbstractController
 {
@@ -53,7 +53,7 @@ class ProductsController extends AbstractController
 
         $json = $this->serializer->serialize($products, 'json', SerializationContext::create()->setGroups('show_products'));
 
-        return $this->apiHelper->validResponse($json);
+        return JsonResponse::fromJsonString($json, Response::HTTP_OK);
     }
 
     /**
@@ -78,9 +78,9 @@ class ProductsController extends AbstractController
         if (null !== $product) {
             $json = $this->serializer->serialize($product, 'json', SerializationContext::create()->setGroups('product'));
 
-            return $this->apiHelper->validResponse($json);
+            return JsonResponse::fromJsonString($json, Response::HTTP_OK);
         }
 
-        return $this->apiHelper->notFoundResponse();
+        throw new HttpException(404, 'Data Not Found');
     }
 }
