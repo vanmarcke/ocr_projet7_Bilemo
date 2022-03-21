@@ -53,8 +53,6 @@ class UsersController extends AbstractController
 
         $usersList = $this->paginator->paginate($users, $request->query->getInt('page', 1), 10);
 
-        // $json = $this->serializer->serialize($usersList, 'json', SerializationContext::create()->setGroups(array('show_users')));
-
         $json = $this->serializer->serialize($usersList, 'json');
 
         return new jsonResponse($json, Response::HTTP_OK, [], true);

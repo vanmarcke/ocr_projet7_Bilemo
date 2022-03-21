@@ -16,7 +16,7 @@ class ProductManager implements ProductsManagerInterface
      */
     public function getProductsList(): array
     {
-        return $this->productsRepo->ProductsFindAll();
+        return $this->productsRepo->productsFindAll();
     }
 
     /**

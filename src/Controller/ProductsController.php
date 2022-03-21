@@ -51,7 +51,7 @@ class ProductsController extends AbstractController
 
         $json = $this->serializer->serialize($products, 'json', SerializationContext::create()->setGroups('show_products'));
 
-        return new JsonResponse($json, Response::HTTP_OK, [], true);
+        return $this->apiHelper->validResponse($json);
     }
 
     /**
@@ -74,7 +74,7 @@ class ProductsController extends AbstractController
         if (null !== $product) {
             $json = $this->serializer->serialize($product, 'json', SerializationContext::create()->setGroups('product'));
 
-            return new jsonResponse($json, Response::HTTP_OK, [], true);
+            return $this->apiHelper->validResponse($json);
         }
 
         return $this->apiHelper->notFoundResponse();
