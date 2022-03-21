@@ -63,4 +63,14 @@ class ApiHelper
     {
         return new jsonResponse($errors, Response::HTTP_BAD_REQUEST, []);
     }
+
+    /**
+     * Method deletedResponse.
+     *
+     * @return JsonResponse Returns code 204 message
+     */
+    public function validResponse(string $entity): JsonResponse
+    {
+        return new jsonResponse($entity, Response::HTTP_OK, [], true);
+    }
 }
