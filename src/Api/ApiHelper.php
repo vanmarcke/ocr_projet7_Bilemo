@@ -41,18 +41,6 @@ class ApiHelper
     }
 
     /**
-     * Method createdResponse.
-     *
-     * @param string $entity Contains user values
-     *
-     * @return JsonResponse Returns code 201 message
-     */
-    public function createdResponse(string $entity): JsonResponse
-    {
-        return new jsonResponse($entity, Response::HTTP_CREATED, [], true);
-    }
-
-    /**
      * Method badRequest.
      *
      * @param array $errors Contains error elements
@@ -97,16 +85,6 @@ class ApiHelper
     public function validResponse(string $entity): JsonResponse
     {
         return new jsonResponse($entity, Response::HTTP_OK, [], true);
-    }
-
-    /**
-     * Method deletedResponse.
-     *
-     * @return JsonResponse Returns code 204 message
-     */
-    public function deletedResponse(): JsonResponse
-    {
-        return new JsonResponse('', Response::HTTP_NO_CONTENT, [], true);
     }
 
     /**

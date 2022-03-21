@@ -102,7 +102,7 @@ class UsersController extends AbstractController
             $this->em->flush();
             $user = $this->apiHelper->serializeUser($user);
 
-            return $this->apiHelper->createdResponse($user);
+            return JsonResponse::fromJsonString($user, Response::HTTP_CREATED);
         } else {
             $errors = FormHelper::getErrors($userForm);
 
@@ -152,7 +152,7 @@ class UsersController extends AbstractController
         if (!empty($user)) {
             $user = $this->usersManager->removeUser($user);
 
-            return $this->apiHelper->deletedResponse();
+            return JsonResponse::fromJsonString('', Response::HTTP_NO_CONTENT);
         }
 
         return $this->apiHelper->forbiddenResponse();
