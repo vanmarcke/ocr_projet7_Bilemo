@@ -65,9 +65,34 @@ class ApiHelper
     }
 
     /**
-     * Method deletedResponse.
+     * Method updatedResponse.
      *
-     * @return JsonResponse Returns code 204 message
+     * @param string $entity Contains user values
+     *
+     * @return JsonResponse Returns code 200 message
+     */
+    public function updatedResponse(string $entity): JsonResponse
+    {
+        return new jsonResponse($entity, Response::HTTP_OK, [], true);
+    }
+
+    /**
+     * Method response.
+     *
+     * @param array $value Contains error elements
+     * @param int   $code  Contains the error code
+     *
+     * @return JsonResponse Returns errors and code message
+     */
+    public function response(array $value, int $code): JsonResponse
+    {
+        return new JsonResponse(json_encode($value), $code, [], true);
+    }
+
+    /**
+     * Method validResponse.
+     *
+     * @return JsonResponse Returns code 200 message
      */
     public function validResponse(string $entity): JsonResponse
     {
