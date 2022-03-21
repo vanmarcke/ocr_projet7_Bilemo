@@ -12,6 +12,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.11",
         "fakerphp/faker": "^1.19",
+        "jms/serializer-bundle": "^4.0",
         "knplabs/knp-paginator-bundle": "^5.8",
         "lexik/jwt-authentication-bundle": "^2.14",
         "nelmio/api-doc-bundle": "^4.8",
@@ -30,7 +31,9 @@
         "symfony/security-bundle": "6.0.*",
         "symfony/serializer": "6.0.*",
         "symfony/twig-bundle": "6.0.*",
-        "symfony/yaml": "6.0.*"
+        "symfony/yaml": "6.0.*",
+        "willdurand/hateoas": "^3.8",
+        "willdurand/hateoas-bundle": "^2.4"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",
