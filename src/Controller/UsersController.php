@@ -102,7 +102,7 @@ class UsersController extends AbstractController
             $this->em->flush();
             $user = $this->apiHelper->serializeUser($user);
 
-            return $this->apiHelper->createdResponse($user);
+            return JsonResponse::fromJsonString($user, Response::HTTP_CREATED);
         } else {
             $errors = FormHelper::getErrors($userForm);
 
@@ -140,5 +140,21 @@ class UsersController extends AbstractController
         }
 
         return $this->apiHelper->notFoundResponse();
+    }
+
+    #[Route('/api/users/{id}', methods: ['DELETE'], name: 'user_delete')]
+    public function deleteUser($id)
+    {
+        $client = $this->getUser();
+
+        $user = $this->usersManager->getUserId($client, $id);
+
+        if (!empty($user)) {
+            $user = $this->usersManager->removeUser($user);
+
+            return JsonResponse::fromJsonString('', Response::HTTP_NO_CONTENT);
+        }
+
+        return $this->apiHelper->forbiddenResponse();
     }
 }
