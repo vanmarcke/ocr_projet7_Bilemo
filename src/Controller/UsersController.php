@@ -15,7 +15,6 @@ use Nelmio\ApiDocBundle\Annotation\Model;
 use App\Entity\Users;
 use App\Form\UserType;
 use Doctrine\ORM\EntityManagerInterface;
-use JMS\Serializer\SerializationContext;
 use Knp\Component\Pager\PaginatorInterface;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -57,7 +56,11 @@ class UsersController extends AbstractController
 
         $usersList = $this->paginator->paginate($users, $request->query->getInt('page', 1), 10);
 
-        $json = $this->serializer->serialize($usersList, 'json');
+        $json = $this->serializer->serialize(
+            $usersList,
+            'json',
+            $this->apiHelper->createSerialization(['show_users'], true)
+        );
 
         $response = JsonResponse::fromJsonString($json, Response::HTTP_OK);
 
@@ -78,7 +81,7 @@ class UsersController extends AbstractController
      *
      * @OA\Tag(name="Users")
      */
-    #[Route('/api/users/{id}', methods: ['GET'], name: 'user_show')]
+    #[Route('/api/users/{id}', methods: ['GET'], name: 'user_show', requirements: ['id' => '\d+'])]
     public function showUser(int $id): JsonResponse
     {
         $client = $this->getUser();
@@ -86,7 +89,11 @@ class UsersController extends AbstractController
         $user = $this->usersManager->getUserId($client, $id);
 
         if (null !== $user) {
-            $json = $this->serializer->serialize($user, 'json', SerializationContext::create()->setGroups('user'));
+            $json = $this->serializer->serialize(
+                $user,
+                'json',
+                $this->apiHelper->createSerialization(['user'], false)
+            );
 
             $response = JsonResponse::fromJsonString($json, Response::HTTP_OK);
 
@@ -124,11 +131,15 @@ class UsersController extends AbstractController
         $userForm->submit($data);
 
         if ($userForm->isValid()) {
-            $this->em->persist($user);
-            $this->em->flush();
-            $user = $this->apiHelper->serializeUser($user);
+            $user = $this->usersManager->addUser($user);
 
-            return JsonResponse::fromJsonString($user, Response::HTTP_CREATED);
+            $userJson = $this->serializer->serialize(
+                $user,
+                'json',
+                $this->apiHelper->createSerialization(['user'], false)
+            );
+
+            return JsonResponse::fromJsonString($userJson, Response::HTTP_CREATED);
         } else {
             $errors = FormHelper::getErrors($userForm);
 
@@ -171,11 +182,15 @@ class UsersController extends AbstractController
             $userForm = $this->createForm(UserType::class, $user);
             $userForm->submit($data, false);
             if ($userForm->isValid()) {
-                $this->em->persist($user);
-                $this->em->flush();
-                $user = $this->apiHelper->serializeUser($user);
+                $user = $this->usersManager->updateUser($user);
 
-                return JsonResponse::fromJsonString($user, Response::HTTP_OK);
+                $userJson = $this->serializer->serialize(
+                    $user,
+                    'json',
+                    $this->apiHelper->createSerialization(['user'], false)
+                );
+
+                return JsonResponse::fromJsonString($userJson, Response::HTTP_OK);
             } else {
                 $errors = FormHelper::getErrors($userForm);
 

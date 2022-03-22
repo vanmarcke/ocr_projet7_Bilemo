@@ -14,7 +14,7 @@ class ApiCache
     public function cache(JsonResponse $jsonResponse): JsonResponse
     {
         $jsonResponse->setPublic();
-        $jsonResponse->setSharedMaxAge(3600);
+        $jsonResponse->setSharedMaxAge(30);
 
         $jsonResponse->headers->addCacheControlDirective('must-revalidate', true);
 

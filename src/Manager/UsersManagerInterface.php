@@ -29,4 +29,18 @@ interface UsersManagerInterface
      * @param Users $user contains user information
      */
     public function removeUser(Users $user): void;
+
+    /**
+     * Method removeUser.
+     *
+     * @param Users $user contains user information
+     */
+    public function addUser(Users $user): Users;
+
+    /**
+     * Method updateUser.
+     *
+     * @param Users $user contains user information
+     */
+    public function updateUser(Users $user): Users;
 }

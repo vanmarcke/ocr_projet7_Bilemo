@@ -2,7 +2,6 @@
 
 namespace App\Api;
 
-use App\Entity\Users;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -15,15 +14,19 @@ class ApiHelper
     }
 
     /**
-     * Method serializeUser.
+     * Method createSerialization.
      *
-     * @param Users $user Contains user values
-     *
-     * @return string Returns the values of the "user" group
+     * @param array $groups  Determine serialization by groups
+     * @param bool  $isItems If true, serialization by Items (get/id)
      */
-    public function serializeUser(Users $user): string
+    public function createSerialization(array $groups, bool $isItems)
     {
-        return $this->serializer->serialize($user, 'json', SerializationContext::create()->setGroups('user'));
+        $context = SerializationContext::create();
+        if ($isItems) {
+            return $context->setGroups(['Default', 'items' => $groups]);
+        }
+
+        return $context->setGroups($groups);
     }
 
     /**
