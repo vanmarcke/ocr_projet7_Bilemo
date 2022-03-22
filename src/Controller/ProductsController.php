@@ -20,7 +20,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class ProductsController extends AbstractController
 {
-    public function __construct(private ApiCache $Apicache, private ApiHelper $apiHelper, private SerializerInterface $serializer, private ProductsManagerInterface $productManager, private PaginatorInterface $paginator)
+    public function __construct(private ApiCache $apicache, private ApiHelper $apiHelper, private SerializerInterface $serializer, private ProductsManagerInterface $productManager, private PaginatorInterface $paginator)
     {
     }
 
@@ -56,7 +56,7 @@ class ProductsController extends AbstractController
 
         $response = JsonResponse::fromJsonString($json, Response::HTTP_OK);
 
-        return $this->Apicache->cache($response);
+        return $this->apicache->cache($response);
     }
 
     /**
@@ -83,7 +83,7 @@ class ProductsController extends AbstractController
 
             $response = JsonResponse::fromJsonString($json, Response::HTTP_OK);
 
-            return $this->Apicache->cache($response);
+            return $this->apicache->cache($response);
         }
 
         throw new HttpException(404, 'Data Not Found');

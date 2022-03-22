@@ -23,7 +23,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class UsersController extends AbstractController
 {
-    public function __construct(private ApiCache $Apicache, private EntityManagerInterface $em, private ApiHelper $apiHelper, private SerializerInterface $serializer, private UsersManagerInterface $usersManager, private PaginatorInterface $paginator)
+    public function __construct(private ApiCache $apicache, private EntityManagerInterface $em, private ApiHelper $apiHelper, private SerializerInterface $serializer, private UsersManagerInterface $usersManager, private PaginatorInterface $paginator)
     {
     }
 
@@ -61,7 +61,7 @@ class UsersController extends AbstractController
 
         $response = JsonResponse::fromJsonString($json, Response::HTTP_OK);
 
-        return $this->Apicache->cache($response);
+        return $this->apicache->cache($response);
     }
 
     /**
@@ -90,7 +90,7 @@ class UsersController extends AbstractController
 
             $response = JsonResponse::fromJsonString($json, Response::HTTP_OK);
 
-            return $this->Apicache->cache($response);
+            return $this->apicache->cache($response);
         }
 
         throw new HttpException(404, 'Data Not Found');
