@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Api\ApiCache;
 use App\Api\ApiHelper;
 use App\Api\FormHelper;
 use App\Manager\UsersManagerInterface;
@@ -22,7 +23,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class UsersController extends AbstractController
 {
-    public function __construct(private EntityManagerInterface $em, private ApiHelper $apiHelper, private SerializerInterface $serializer, private UsersManagerInterface $usersManager, private PaginatorInterface $paginator)
+    public function __construct(private ApiCache $Apicache, private EntityManagerInterface $em, private ApiHelper $apiHelper, private SerializerInterface $serializer, private UsersManagerInterface $usersManager, private PaginatorInterface $paginator)
     {
     }
 
@@ -58,7 +59,9 @@ class UsersController extends AbstractController
 
         $json = $this->serializer->serialize($usersList, 'json');
 
-        return JsonResponse::fromJsonString($json, Response::HTTP_OK);
+        $response = JsonResponse::fromJsonString($json, Response::HTTP_OK);
+
+        return $this->Apicache->cache($response);
     }
 
     /**
@@ -85,7 +88,9 @@ class UsersController extends AbstractController
         if (null !== $user) {
             $json = $this->serializer->serialize($user, 'json', SerializationContext::create()->setGroups('user'));
 
-            return JsonResponse::fromJsonString($json, Response::HTTP_OK);
+            $response = JsonResponse::fromJsonString($json, Response::HTTP_OK);
+
+            return $this->Apicache->cache($response);
         }
 
         throw new HttpException(404, 'Data Not Found');
