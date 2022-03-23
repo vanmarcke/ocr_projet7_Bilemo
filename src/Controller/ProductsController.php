@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Api\ApiCache;
 use App\Api\ApiHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +20,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class ProductsController extends AbstractController
 {
-    public function __construct(private ApiHelper $apiHelper, private SerializerInterface $serializer, private ProductsManagerInterface $productManager, private PaginatorInterface $paginator)
+    public function __construct(private ApiCache $apicache, private ApiHelper $apiHelper, private SerializerInterface $serializer, private ProductsManagerInterface $productManager, private PaginatorInterface $paginator)
     {
     }
 
@@ -53,7 +54,9 @@ class ProductsController extends AbstractController
 
         $json = $this->serializer->serialize($products, 'json', SerializationContext::create()->setGroups('show_products'));
 
-        return JsonResponse::fromJsonString($json, Response::HTTP_OK);
+        $response = JsonResponse::fromJsonString($json, Response::HTTP_OK);
+
+        return $this->apicache->cache($response);
     }
 
     /**
@@ -78,7 +81,9 @@ class ProductsController extends AbstractController
         if (null !== $product) {
             $json = $this->serializer->serialize($product, 'json', SerializationContext::create()->setGroups('product'));
 
-            return JsonResponse::fromJsonString($json, Response::HTTP_OK);
+            $response = JsonResponse::fromJsonString($json, Response::HTTP_OK);
+
+            return $this->apicache->cache($response);
         }
 
         throw new HttpException(404, 'Data Not Found');
