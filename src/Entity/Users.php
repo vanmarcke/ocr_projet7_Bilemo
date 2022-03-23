@@ -30,27 +30,27 @@ use Symfony\Component\Validator\Constraints as Assert;
  *      "create",
  *      href=@Hateoas\Route(
  *          "user_add",
- *          absolute = true
+ *          absolute = true),
+ *          exclusion = @Hateoas\Exclusion(groups={"default","show_users"})
  *      )
- * )
  *
  * @Hateoas\Relation(
  *      "update",
  *      href=@Hateoas\Route(
  *          "user_patch",
  *          parameters={"id" = "expr(object.getId())" },
- *          absolute = true
+ *          absolute = true),
+ *          exclusion = @Hateoas\Exclusion(groups={"default","show_users"})
  *      )
- * )
  *
  * @Hateoas\Relation(
  *      "delete",
  *      href=@Hateoas\Route(
  *          "user_delete",
  *          parameters={"id" = "expr(object.getId())" },
- *          absolute = true
+ *          absolute = true),
+ *          exclusion = @Hateoas\Exclusion(groups={"default","show_users"})
  *      )
- * )
  *
  * @ExclusionPolicy("ALL")
  */
