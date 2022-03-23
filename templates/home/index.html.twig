@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}API - Bilemo{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Welcome to Bilemo : <br> Mobile phones API for b2b !</h1>
+
+    Have a good fun on this api:
+    <ul>
+        <li>Access the API :<code><a href="https://127.0.0.1:8000/api/doc">API</a></code></li>
+        <li>Access the documentation :<code><a href="{{ "https://127.0.0.1:8000/api/doc.json"}}">DOC</a></code></li>
+    </ul>
+</div>
+{% endblock %}
