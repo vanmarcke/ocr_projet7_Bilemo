@@ -1,7 +1,5 @@
 # Project 7 OpenClassrooms - Bilemo
 
-- Project in progress
-
 ## Application Developer Formation - PHP / Symfony
 
 Create a web service exposing an API
@@ -17,7 +15,7 @@ Create a web service exposing an API
 ![php-unit](https://img.shields.io/badge/serveur-MariaDB-green)
 ![Apache](<https://img.shields.io/badge/Apache-2.4.51%20(Win64)%20OpenSSL%2F1.1.1l%20PHP%2F8.1.1-green>)
 ![phpMyAdmin](https://img.shields.io/badge/phpMyAdmin-5.1.1-green)
-![Postman](https://img.shields.io/badge/Postman-9.14.0-orange)
+![Postman](https://img.shields.io/badge/Postman-9.15.2-orange)
 
 ## Code Quality
 
@@ -25,7 +23,7 @@ Create a web service exposing an API
 
 **SymfonyInsight:**
 
-[![SymfonyInsight](https://insight.symfony.com/projects/b3a17fcb-b2ec-4c03-aa3a-819a029f81c1/big.svg)](https://insight.symfony.com/projects/b3a17fcb-b2ec-4c03-aa3a-819a029f81c1)
+[![SymfonyInsight](https://insight.symfony.com/projects/717fb484-8b04-4659-86ed-deab03bec17a/big.svg)](https://insight.symfony.com/projects/717fb484-8b04-4659-86ed-deab03bec17a)
 
 ## Context
 
@@ -50,13 +48,29 @@ The first customer has finally signed a partnership contract with BileMo! It is 
 
 Only referenced clients can access the APIs. API clients must be authenticated via OAuth or JWT.
 
-## Libraries added
+## Libraries added whit composer require
 
-- Project in progress
+Project initiated with symfony new Bilemo
+
+- friendsofphp/php-cs-fixer
+- symfony/maker-bundle --dev
+- orm
+- symfony/security-bundle
+- debug --dev
+- orm-fixtures –dev
+- fakerphp/faker
+- lexik/jwt-authentication-bundle
+- nelmio/api-doc-bundle
+- symfony/twig-bundle
+- symfony/asset
+- doctrine/annotations
+- symfony/serializer-pack
+- sensio/framework-extra-bundle
+- knplabs/knp-paginator-bundle
+- form validator
+- willdurand/hateoas-bundle
 
 ## Installation
-
-- Project in progress
 
 ### Prerequisites
 
@@ -75,30 +89,45 @@ git clone git@github.com:vanmarcke/ocr_projet7_Bilemo.git
 
 - Create an .env.local file in the root of the project.
 - In this file copy/paste the code below.
-- Modify the 'DATABASE_URL' and 'Gmail' lines by putting your database and Gmail identifiers.
+- Modify the 'DATABASE_URL' and 'JWT_PASSPHRASE' lines by putting your database and your passphrase.
 
 ```code
+###> doctrine/doctrine-bundle ###
 DATABASE_URL="mysql://db_user:db_password@127.0.0.1:3306/db_name?serverVersion=mariadb-10.4.11"
+###< doctrine/doctrine-bundle ###
+
+###> lexik/jwt-authentication-bundle ###
+JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem
+JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem
+JWT_PASSPHRASE=your_pass_phrase
+###< lexik/jwt-authentication-bundle ###
 ```
 
-Example: DATABASE_URL="mysql://root:@127.0.0.1:3306/bilemo?serverVersion=mariadb-10.4.11"
+Example:
+
+DATABASE_URL="mysql://root:@127.0.0.1:3306/bilemo?serverVersion=mariadb-10.4.11"
+
+JWT_PASSPHRASE=I-m-going-to-have-fun-with-this-api
 
 ### Step 3: Make sure your Apache and Mysql Modules (or others depending on your configuration) are running. In a powershell-like terminal or that of your code editor, run the command below at the root of the project
 
-This command will install all dependencies, webpack-encore-bundle, database with Fixtures dataset and start the web server
+This command will install all dependencies, Generate the SSL key, database with Fixtures dataset and start the web server
 
 ```powershell
-- Project in progress
+composer run-script install-projet --dev
 ```
 
-### Step 4: The site is now functional, you can create an account with your own identifiers or use the identifiers below
+### Step 4: The site is now functional at "https://127.0.0.1:8000/api/doc" , you can generate the token key with the credentials below via Login / POST
 
 - username: client1@gmail.com
 - password: 123456
 
-## Future Developments
+or
 
-- Project in progress
+- username: client2@gmail.com
+- password: 123456
+
+## Have a good fun on this api
 
 ## Author
 
