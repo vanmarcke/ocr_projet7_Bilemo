@@ -11,7 +11,6 @@ use OpenApi\Annotations as OA;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use App\Entity\Products;
 use App\Manager\ProductsManagerInterface;
-use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -50,9 +49,13 @@ class ProductsController extends AbstractController
     {
         $products = $this->productManager->getProductsList();
 
-        // $productsList = $this->paginator->paginate($products, $request->query->getInt('page', 1), 10);
+        $productsList = $this->paginator->paginate($products, $request->query->getInt('page', 1), 10);
 
-        $json = $this->serializer->serialize($products, 'json', SerializationContext::create()->setGroups('show_products'));
+        $json = $this->serializer->serialize(
+            $productsList,
+            'json',
+            $this->apiHelper->createSerialization(['show_products'], true)
+        );
 
         $response = JsonResponse::fromJsonString($json, Response::HTTP_OK);
 
@@ -79,7 +82,11 @@ class ProductsController extends AbstractController
         $product = $this->productManager->getProductId($id);
 
         if (null !== $product) {
-            $json = $this->serializer->serialize($product, 'json', SerializationContext::create()->setGroups('product'));
+            $json = $this->serializer->serialize(
+                $product,
+                'json',
+                $this->apiHelper->createSerialization(['product'], false)
+            );
 
             $response = JsonResponse::fromJsonString($json, Response::HTTP_OK);
 

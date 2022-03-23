@@ -38,4 +38,26 @@ class UserManager implements UsersManagerInterface
         $this->em->remove($user);
         $this->em->flush();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addUser(Users $user): Users
+    {
+        $this->em->persist($user);
+        $this->em->flush();
+
+        return $user;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function updateUser(Users $user): Users
+    {
+        $this->em->persist($user);
+        $this->em->flush();
+
+        return $user;
+    }
 }
