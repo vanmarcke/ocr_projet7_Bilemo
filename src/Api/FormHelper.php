@@ -6,7 +6,12 @@ use Symfony\Component\Form\Form;
 
 class FormHelper
 {
-    public static function getErrors(Form $form)
+    /**
+     * Method getErrors.
+     *
+     * @param Form $form Form processing
+     */
+    public static function getErrors(Form $form): array
     {
         $errors = [];
 
@@ -24,7 +29,12 @@ class FormHelper
         return $errors;
     }
 
-    public static function checkFields(array $data)
+    /**
+     * Method checkFields.
+     *
+     * @param null|array $data Contains error data
+     */
+    public static function checkFields(array $data): ?array
     {
         foreach ($data as $key => $field) {
             if (empty($field)) {
