@@ -60,7 +60,7 @@ class Users
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(['show_users', 'user'])]
+    #[Groups(['show_users', 'user', 'user_id'])]
     #[Expose]
     #[Type('integer')]
     private $id;
@@ -80,7 +80,7 @@ class Users
     private $lastname;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(['user', 'user_add'])]
+    #[Groups(['user', 'user_add', 'user_id'])]
     #[Expose]
     #[Type('string')]
     #[Assert\Email]
@@ -88,7 +88,7 @@ class Users
     private $email;
 
     #[ORM\Column(type: 'text')]
-    #[Groups(['user', 'user_add'])]
+    #[Groups(['user', 'user_add', 'user_id'])]
     #[Expose]
     #[Type('string')]
     #[Assert\NotBlank]

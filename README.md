@@ -74,10 +74,11 @@ Project initiated with symfony new Bilemo
 
 ### Prerequisites
 
-- Symfony CLI version v4.28.1
+- Symfony CLI v4.28.1 - installation : "https://symfony.com/download"
+- Composer version 2.2.5 - installation : "https://getcomposer.org/download/"
 - PHP version 8.1.1
-- Composer version 2.2.5
 - A Management System (SGBD) type 'phpMyAdmin'
+- You must have the php-xml and php-sql extensions to install and activate
 
 ### Step 1: Clone your machine's repository to a folder of your choice
 
@@ -93,7 +94,7 @@ git clone git@github.com:vanmarcke/ocr_projet7_Bilemo.git
 
 ```code
 ###> doctrine/doctrine-bundle ###
-DATABASE_URL="mysql://db_user:db_password@127.0.0.1:3306/db_name?serverVersion=mariadb-10.4.11"
+DATABASE_URL="mysql://db_user:db_password@db_host:db_port/db_name?serverVersion=db_server_name"
 ###< doctrine/doctrine-bundle ###
 
 ###> lexik/jwt-authentication-bundle ###

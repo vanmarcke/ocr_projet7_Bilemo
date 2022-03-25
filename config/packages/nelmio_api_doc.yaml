@@ -1,4 +1,13 @@
 nelmio_api_doc:
+    models:
+        names:
+            - { alias: ReturnUserAdd,  type: App\Entity\Users, groups: [user] }
+            - { alias: UsersAdd,  type: App\Entity\Users, groups: [user_add] }
+            - { alias: Users\id,  type: App\Entity\Users, groups: [user_id] }
+            - { alias: UsersList,  type: App\Entity\Users, groups: [show_users] }
+            - { alias: Products\id,  type: App\Entity\Products, groups: [product] }
+            - { alias: ProductsList,  type: App\Entity\Products, groups: [show_products] }
+
     documentation:
         info:
             title: BileMo By VMKDEV.com
