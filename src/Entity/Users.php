@@ -66,14 +66,14 @@ class Users
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(['show_users', 'user_add'])]
+    #[Groups(['show_users', 'user', 'user_add'])]
     #[Expose]
     #[Type('string')]
     #[Assert\NotBlank]
     private $firstname;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(['show_users', 'user_add'])]
+    #[Groups(['show_users', 'user', 'user_add'])]
     #[Expose]
     #[Type('string')]
     #[Assert\NotBlank]

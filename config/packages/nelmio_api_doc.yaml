@@ -5,7 +5,7 @@ nelmio_api_doc:
             - { alias: UserCreate,  type: App\Entity\Users, groups: [user_add] }
             - { alias: User,  type: App\Entity\Users, groups: [user_id] }
             - { alias: Users,  type: App\Entity\Users, groups: [show_users] }
-            - { alias: Product,  type: App\Entity\Products, groups: [product] }
+            - { alias: Product,  type: App\Entity\Products, groups: [product_id] }
             - { alias: Products,  type: App\Entity\Products, groups: [show_products] }
 
     documentation:
