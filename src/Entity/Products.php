@@ -33,37 +33,37 @@ class Products
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(['show_products', 'product'])]
+    #[Groups(['show_products', 'product_id'])]
     #[Expose]
     #[Type('integer')]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(['show_products', 'product'])]
+    #[Groups(['show_products', 'product_id'])]
     #[Expose]
     #[Type('string')]
     private $name;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(['product'])]
+    #[Groups(['product_id'])]
     #[Expose]
     #[Type('string')]
     private $brand;
 
     #[ORM\Column(type: 'float')]
-    #[Groups(['product'])]
+    #[Groups(['product_id'])]
     #[Expose]
     #[Type('float')]
     private $size;
 
     #[ORM\Column(type: 'float')]
-    #[Groups(['show_products', 'product'])]
+    #[Groups(['show_products', 'product_id'])]
     #[Expose]
     #[Type('float')]
     private $price;
 
     #[ORM\Column(type: 'text')]
-    #[Groups(['show_products', 'product'])]
+    #[Groups(['show_products', 'product_id'])]
     #[Expose]
     #[Type('string')]
     private $description;

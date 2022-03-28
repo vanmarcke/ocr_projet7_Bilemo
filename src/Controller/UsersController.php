@@ -75,7 +75,7 @@ class UsersController extends AbstractController
      *     description="Returns Users entity",
      *     @OA\JsonContent(
      *          type="array",
-     *          @OA\Items(ref=@Model(type=Users::class, groups={"user"}))
+     *          @OA\Items(ref=@Model(type=Users::class, groups={"user_id"}))
      *     )
      * )
      *
@@ -92,7 +92,7 @@ class UsersController extends AbstractController
             $json = $this->serializer->serialize(
                 $user,
                 'json',
-                $this->apiHelper->createSerialization(['user'], false)
+                $this->apiHelper->createSerialization(['user_id'], false)
             );
 
             $response = JsonResponse::fromJsonString($json, Response::HTTP_OK);
