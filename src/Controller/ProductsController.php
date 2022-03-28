@@ -70,7 +70,7 @@ class ProductsController extends AbstractController
      *     description="Returns Product Entity",
      *     @OA\JsonContent(
      *          type="array",
-     *          @OA\Items(ref=@Model(type=Products::class, groups={"product"}))
+     *          @OA\Items(ref=@Model(type=Products::class, groups={"product_id"}))
      *     )
      * )
      *
@@ -85,7 +85,7 @@ class ProductsController extends AbstractController
             $json = $this->serializer->serialize(
                 $product,
                 'json',
-                $this->apiHelper->createSerialization(['product'], false)
+                $this->apiHelper->createSerialization(['product_id'], false)
             );
 
             $response = JsonResponse::fromJsonString($json, Response::HTTP_OK);
