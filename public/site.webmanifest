@@ -1,0 +1,17 @@
+{
+  "lang": "fr-FR",
+  "name": "Bilemo",
+  "short_name": "Bilemo",
+  "description": "BileMo is a company offering a whole selection of high-end mobile phones.",
+  "start_url": "/https://vmkdev.com",
+  "orientation": "landscape",
+  "display": "fullscreen",
+  "background_color": "#2196f3",
+  "theme_color": "#2196f3",
+  "icons": [
+    {
+      "src": "https://vmkdev.com/images/logo_small.png",
+      "sizes": "192x192"
+    }
+  ]
+}
